@@ -1,0 +1,29 @@
+name: .NET Build and Pack
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v6
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: '10.0.x'
+
+    - name: Calver Release
+      uses: StephaneBour/actions-calver@v1.6
+      id: calver
+      with:
+        date_format: "%Y.%m.%d"
+        release: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
